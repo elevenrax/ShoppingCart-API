@@ -6,16 +6,16 @@ using System.Web;
 
 namespace ShoppingCart.DAL
 {
-    public class ProductDatabase
+    public class ProductDatabase : ProductDatabaseInterface
     {
 
-        List<Product> products = new List<Product>();
-        
+        ProductDatabase products;
+        CartDatabase cart;
 
         public ProductDatabase()
         {
-            
-
+            products = new ProductDatabase();
+            cart = CartDatabase.Instance;
         }
 
 
@@ -23,6 +23,10 @@ namespace ShoppingCart.DAL
         {
             return new Product(); // TODO - implement
         }
-        
+
+        public Product Get()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

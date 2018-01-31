@@ -1,4 +1,5 @@
-﻿using ShoppingCart.Models;
+﻿using ShoppingCart.DAL;
+using ShoppingCart.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,13 @@ namespace ShoppingCart.Controllers
     /// </summary>
     public class BasketController : ApiController
     {
+        ProductDatabase productDb;
+
+        public BasketController()
+        {
+
+        }
+
         // GET: api/Basket
         public IEnumerable<OrderItem> Get()
         {
