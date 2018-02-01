@@ -487,9 +487,42 @@
             </summary>
         </member>
         <member name="T:ShoppingCart.DAL.CartDatabase">
-            A singleton to represent the cart. 
-            As per the specification, can be stored in memory. 
-            No need for data persistence.   
+             <summary>
+             Class used to maintain the user's purchases. 
+             Assumption: The specification does not require (1) user accounts and (2) a method to manage multiple carts.
+             Could have used Sessions object to persist a given users cart as follows:
+             public static CartDatabase Instance
+             {
+                 get
+                 {
+                     var cart = HttpContext.Current.Session["Cart"] as CartDatabase;
+                     if (null == cart)
+                     {
+                         cart = new CartDatabase();
+                         HttpContext.Current.Session["Cart"] = cart;
+                     }
+                     return cart;
+                 }
+             }
+            
+             However by the server preserving sessions, this would no longer be RESTful as it violates the `Stateless` constraint.
+             </summary>
+        </member>
+        <member name="T:ShoppingCart.DAL.ProductDatabaseInterface">
+            <summary>
+            The interface and constructor based DI allow us to switch out databases
+            in our WebAPI Controller.
+            </summary>
+        </member>
+        <member name="T:ShoppingCart.DAL.ProductDatabase">
+            <summary>
+            A mock database context storing products for sale via this fictitious online storefront. 
+            </summary>
+        </member>
+        <member name="T:ShoppingCart.Models.ClientOrderItem">
+            <summary>
+            WebAPI Model to handle Post of order items.
+            </summary>
         </member>
     </members>
 </doc>
