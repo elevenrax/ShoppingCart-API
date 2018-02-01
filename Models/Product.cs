@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace ShoppingCart.Models
 {
+    [DataContract(Name = "Product")]
     public class Product
     {
-        public int Id { get; set; }
+        [DataMember(Name = "Id")]
+        public int Id { get; set; } = 0;
 
-        public string ProductName { get; set; }
-    
-        public string ProductDescription { get; set; }
+        [DataMember(Name = "ProductName")]
+        public string ProductName { get; set; } = "";
 
-        public double UnitPrice { get; set; }
+        [DataMember(Name = "ProductDescription")]
+        public string ProductDescription { get; set; } = "";
+
+        [DataMember(Name = "UnitPrice")]
+        public double UnitPrice { get; set; } = 0;
 
         public Product(int id, string productName, string productDescription, double unitPrice)
         {

@@ -6,15 +6,16 @@ using System.Web;
 
 namespace ShoppingCart.Models
 {
-    [DataContract(Name = "OrderItem")]
-    public class OrderItem : Product
+    /// <summary>
+    /// WebAPI Model to handle Post of order items.
+    /// </summary>
+    public class ClientOrderItem
     {
 
-        public OrderItem(Product prod, int qty) 
-            : base(prod.Id, prod.ProductName, prod.ProductDescription, prod.UnitPrice)
-        {
-            this.qty = qty;
-        }
+        public ClientOrderItem() { }
+
+        [DataMember(Name = "Id")]
+        public int Id { get; set; } = 0;
 
         [DataMember(Name = "qty")]
         private int qty;
@@ -29,6 +30,7 @@ namespace ShoppingCart.Models
                 qty = value;
             }
         }
+
 
     }
 }
