@@ -43,8 +43,12 @@
 
     <script>
         var helper = new ShoppingCartHelper();
+        helper.AddProductToCart(1, 1);
         helper.getAll();
         helper.get(1);
+        helper.getBasketTotal();
+        helper.UpdateQtyOfProduct(1, 5);
+        helper.getAll();
         helper.getBasketTotal();
 
     </script>
