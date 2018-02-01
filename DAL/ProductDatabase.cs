@@ -6,6 +6,9 @@ using System.Web;
 
 namespace ShoppingCart.DAL
 {
+    /// <summary>
+    /// A mock database context storing products for sale via this fictitious online storefront. 
+    /// </summary>
     public class ProductDatabase : ProductDatabaseInterface
     {
 
