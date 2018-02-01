@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShoppingCart.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,22 +14,54 @@ namespace ShoppingCart.DAL
      */
     public class CartDatabase
     {
-        private static CartDatabase instance;
 
-        private CartDatabase() { }
+        private ProductDatabase productDb;
+        private List<OrderItem> currentBasket;
 
-        public static CartDatabase Instance
+        public CartDatabase()
         {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new CartDatabase();
-                }
-                return instance;
-            }
+            productDb = new ProductDatabase();
+            currentBasket = new List<OrderItem>();
         }
 
+  
+        public List<OrderItem> GetAll()
+        {
+            return currentBasket;          
+        }
+
+        public OrderItem Get(int id)
+        {
+            return currentBasket.Where(p => p.Id == id).FirstOrDefault();
+        }
+
+        public bool UpdateQuantity(int id, int qty)
+        {
+            OrderItem item = currentBasket.Find(p => p.Id == id);
+
+            if (item != null)
+            {
+                item.OrderQty = qty;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool Add(int id, int qty)
+        {
+            Product prod = productDb.Get(id);
+            if (prod == null) return false;
+
+            OrderItem item = currentBasket.Find(p => p.Id == id);
+            if (item != null)
+            {
+                item.OrderQty = item.OrderQty += qty;
+            }
+
+            currentBasket.Add(new OrderItem(prod, qty));
+            return true;
+        }
 
     }
 }

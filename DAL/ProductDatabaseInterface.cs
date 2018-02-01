@@ -11,6 +11,6 @@ namespace ShoppingCart.DAL
     {
         Product Get(int id);
 
-        Product Get();
+        List<Product> Get();
     }
 }

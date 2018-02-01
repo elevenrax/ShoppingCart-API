@@ -7,19 +7,20 @@ namespace ShoppingCart.Models
 {
     public class Product
     {
-
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string ProductName { get; set; }
-
+    
         public string ProductDescription { get; set; }
 
-        
-        public Product()
+        public double UnitPrice { get; set; }
+
+        public Product(int id, string productName, string productDescription, double unitPrice)
         {
-
+            this.Id = id;
+            this.ProductName = productName;
+            this.ProductDescription = productDescription;
+            this.UnitPrice = unitPrice;
         }
-
-
     }
 }

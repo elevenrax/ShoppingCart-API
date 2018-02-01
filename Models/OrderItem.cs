@@ -8,9 +8,10 @@ namespace ShoppingCart.Models
     public class OrderItem : Product
     {
 
-        public OrderItem()
+        public OrderItem(Product prod, int qty) 
+            : base(prod.Id, prod.ProductName, prod.ProductDescription, prod.UnitPrice)
         {
-            this.qty = 0;
+            this.qty = qty;
         }
 
         private int qty;

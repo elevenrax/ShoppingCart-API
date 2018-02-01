@@ -14,17 +14,19 @@ namespace ShoppingCart.Controllers
     /// </summary>
     public class BasketController : ApiController
     {
-        ProductDatabase productDb;
+        ProductDatabase products;
+        CartDatabase shoppingCart;
 
         public BasketController()
         {
-
+            products = new ProductDatabase();
+            shoppingCart = CartDatabase.Instance;
         }
 
         // GET: api/Basket
         public IEnumerable<OrderItem> Get()
         {
-            return new List<OrderItem>();
+            return 
         }
 
         // GET: api/Basket/5
