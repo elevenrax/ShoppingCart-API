@@ -48,7 +48,7 @@ namespace ShoppingCart.Controllers
 
         [Route("api/Basket/total")]
         [HttpGet]
-        // GET: api/Basket
+        // GET: api/Basket/total
         public double GetTotal()
         {
             return shoppingCart.SumCart();
@@ -58,31 +58,41 @@ namespace ShoppingCart.Controllers
         [Route("api/Basket")]
         [HttpPost]
         // POST: api/Basket
-        public void Post([FromBody] ClientOrderItem order)
+        public HttpResponseMessage Post([FromBody] ClientOrderItem order)
         {
-            shoppingCart.Add(order.Id, order.OrderQty);
+            if ( shoppingCart.Add(order.Id, order.OrderQty) )
+            {
+                return Request.CreateResponse(HttpStatusCode.Created, order.Id);
+            }
+            return Request.CreateResponse(HttpStatusCode.BadRequest, order.Id);
         }
 
 
         [Route("api/Basket")]
         [HttpPut]
         // PUT: api/Basket
-        public void Put([FromBody]ClientOrderItem order)
+        public HttpResponseMessage Put([FromBody]ClientOrderItem order)
         {
             OrderItem orderItem = shoppingCart.Get(order.Id);
             if (orderItem != null && order.OrderQty > 0)
             {
                 orderItem.OrderQty = order.OrderQty;
+                return Request.CreateResponse(HttpStatusCode.OK, order.Id);
             }
+            return Request.CreateResponse(HttpStatusCode.NotFound, order.id);
         }
 
 
-        [Route("api/Basket")]
+        [Route("api/Basket/{id}")]
         [HttpDelete]
         // DELETE: api/Basket/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
-            shoppingCart.Remove(id);
+            if (shoppingCart.Remove(id))
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, id);
+            }
+            return Request.CreateResponse(HttpStatusCode.NotFound, id);
         }
 
     
