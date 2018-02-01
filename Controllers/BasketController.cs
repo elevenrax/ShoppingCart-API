@@ -23,31 +23,61 @@ namespace ShoppingCart.Controllers
             shoppingCart = CartDatabase.Instance;
         }
 
+        [Route("api/Basket")]
+        [HttpGet]
         // GET: api/Basket
-        public IEnumerable<OrderItem> Get()
+        public List<OrderItem> Get()
         {
-            return 
+            return shoppingCart.GetAll();
         }
 
-        // GET: api/Basket/5
-        public string Get(int id)
+        [Route("api/Basket/{id}")]
+        [HttpGet]
+        // GET: api/Basket/{id}
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+            if (id < 0)
+            {
+                return NotFound();
+            }
+            return Ok(shoppingCart.Get(id));
         }
 
+        [Route("api/Basket")]
+        [HttpPost]
         // POST: api/Basket
-        public void Post([FromBody]string value)
+        public void Post([FromBody] ClientOrderItem order)
         {
+            shoppingCart.Add(order.Id, order.OrderQty);
         }
 
+        [Route("api/Basket")]
+        [HttpPut]
         // PUT: api/Basket/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, int newQty)
         {
+            OrderItem orderItem = shoppingCart.Get(id);
+            if (orderItem != null && newQty > 0)
+            {
+                orderItem.OrderQty = newQty;
+            }
         }
 
+        [Route("api/Basket")]
+        [HttpDelete]
         // DELETE: api/Basket/5
         public void Delete(int id)
         {
+            shoppingCart.Remove(id);
+        }
+
+    
+        [Route("api/Basket")]
+        [HttpDelete]
+        // DELETE: api/Basket
+        public void Delete()
+        {
+            shoppingCart.EmptyCart();
         }
     }
 }
