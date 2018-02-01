@@ -181,10 +181,12 @@
     <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\CartDatabase.cs" />
+    <Compile Include="DAL\ProductDatabaseInterface.cs" />
     <Compile Include="DAL\ProductDatabase.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClientOrderItem.cs" />
     <Compile Include="Models\OrderItem.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
