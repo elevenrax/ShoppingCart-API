@@ -23,6 +23,7 @@ namespace ShoppingCart.Controllers
             shoppingCart = CartDatabase.Instance;
         }
 
+
         [Route("api/Basket")]
         [HttpGet]
         // GET: api/Basket
@@ -30,6 +31,7 @@ namespace ShoppingCart.Controllers
         {
             return shoppingCart.GetAll();
         }
+
 
         [Route("api/Basket/{id}")]
         [HttpGet]
@@ -43,6 +45,16 @@ namespace ShoppingCart.Controllers
             return Ok(shoppingCart.Get(id));
         }
 
+
+        [Route("api/Basket/total")]
+        [HttpGet]
+        // GET: api/Basket
+        public double GetTotal()
+        {
+            return shoppingCart.SumCart();
+        }
+
+
         [Route("api/Basket")]
         [HttpPost]
         // POST: api/Basket
@@ -51,17 +63,19 @@ namespace ShoppingCart.Controllers
             shoppingCart.Add(order.Id, order.OrderQty);
         }
 
+
         [Route("api/Basket")]
         [HttpPut]
-        // PUT: api/Basket/5
-        public void Put(int id, int newQty)
+        // PUT: api/Basket
+        public void Put([FromBody]ClientOrderItem order)
         {
-            OrderItem orderItem = shoppingCart.Get(id);
-            if (orderItem != null && newQty > 0)
+            OrderItem orderItem = shoppingCart.Get(order.Id);
+            if (orderItem != null && order.OrderQty > 0)
             {
-                orderItem.OrderQty = newQty;
+                orderItem.OrderQty = order.OrderQty;
             }
         }
+
 
         [Route("api/Basket")]
         [HttpDelete]

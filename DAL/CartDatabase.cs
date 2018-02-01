@@ -98,6 +98,12 @@ namespace ShoppingCart.DAL
         }
 
 
+        public double SumCart()
+        {
+            return currentBasket.Select(item => item.UnitPrice * item.OrderQty).Sum();
+        }
+
+
         public bool Remove(int id)
         {
             OrderItem itemToRemove = currentBasket.Find(p => p.Id == id);
