@@ -24,53 +24,74 @@ namespace ShoppingCart.Controllers
         }
 
 
+        /// <summary>
+        /// Get a list of all items in the shopping cart.
+        /// </summary>
+        /// <returns>A list of items in the shopping cart.</returns>
         [Route("api/Basket")]
         [HttpGet]
-        // GET: api/Basket
         public List<OrderItem> Get()
         {
             return shoppingCart.GetAll();
         }
 
 
+        /// <summary>
+        /// Get a specific item, by id, from the shopping cart.
+        /// </summary>
+        /// <param name="id">The ID for a specific item in the cart that you want to get.</param>
+        /// <returns></returns>
         [Route("api/Basket/{id}")]
         [HttpGet]
-        // GET: api/Basket/{id}
         public IHttpActionResult Get(int id)
         {
-            if (id < 0)
+            var item = shoppingCart.Get(id);
+            if (item == null)
             {
-                return NotFound();
+                return BadRequest("No product in catague with id=" + id);
             }
             return Ok(shoppingCart.Get(id));
         }
 
 
+        /// <summary>
+        /// Get the sum total of all items in the shopping cart.
+        /// </summary>
+        /// <returns>The total value of the goods in the shopping cart.</returns>
         [Route("api/Basket/total")]
         [HttpGet]
-        // GET: api/Basket/total
         public double GetTotal()
         {
             return shoppingCart.SumCart();
         }
 
 
+        /// <summary>
+        /// Add a product to the shopping cart. 
+        /// </summary>
+        /// <param name="Id">The product ID to add to cart.</param>
+        /// <param name="OrderQuantity">The quantity of the given product to add to the cart.</param>
+        /// <returns>HttpStatus: {201=Created}. {400=Bad Request: If Id of product does not exist in Product Database.}</returns>
         [Route("api/Basket")]
         [HttpPost]
-        // POST: api/Basket
         public HttpResponseMessage Post([FromBody] ClientOrderItem order)
         {
             if ( shoppingCart.Add(order.Id, order.OrderQty) )
             {
                 return Request.CreateResponse(HttpStatusCode.Created, order.Id);
             }
-            return Request.CreateResponse(HttpStatusCode.BadRequest, order.Id);
+            return Request.CreateResponse(HttpStatusCode.BadRequest, "No product in catalogue with id=" + order.Id);
         }
 
 
+        /// <summary>
+        /// Change the quantity of product already in the shopping cart.
+        /// </summary>
+        /// <param name="Id">The product ID of the product whose quantity you want to change.</param>
+        /// <param name="OrderQuantity">The new quantity to order for the given product.</param>
+        /// <returns>HttpStatus: {200=Ok}. {400=Bad Request: If Id of product does not exist in current Shopping Cart.}</returns>
         [Route("api/Basket")]
         [HttpPut]
-        // PUT: api/Basket
         public HttpResponseMessage Put([FromBody]ClientOrderItem order)
         {
             OrderItem orderItem = shoppingCart.Get(order.Id);
@@ -79,23 +100,30 @@ namespace ShoppingCart.Controllers
                 orderItem.OrderQty = order.OrderQty;
                 return Request.CreateResponse(HttpStatusCode.OK, order.Id);
             }
-            return Request.CreateResponse(HttpStatusCode.NotFound, order.id);
+            return Request.CreateResponse(HttpStatusCode.NotFound, "Cannot update product with id=" + order.Id + ". Item not in basket");
         }
 
 
+        /// <summary>
+        /// Deletes a product (with a given ID) from the shopping cart.
+        /// </summary>
+        /// <param name="id">The id of the product to remove from the Shopping Cart.</param>
+        /// <returns>HttpStatus: {200=Ok}. {404=Not Found: If Id of product does not exist in current Shopping Cart.}</returns>
         [Route("api/Basket/{id}")]
         [HttpDelete]
-        // DELETE: api/Basket/5
         public HttpResponseMessage Delete(int id)
         {
             if (shoppingCart.Remove(id))
             {
                 return Request.CreateResponse(HttpStatusCode.OK, id);
             }
-            return Request.CreateResponse(HttpStatusCode.NotFound, id);
+            return Request.CreateResponse(HttpStatusCode.NotFound, "Cannot delete product with id=" + id + ". Item not in basket");
         }
 
     
+        /// <summary>
+        /// Empties the entire shopping cart.
+        /// </summary>
         [Route("api/Basket")]
         [HttpDelete]
         // DELETE: api/Basket

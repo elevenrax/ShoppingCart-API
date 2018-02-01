@@ -6,6 +6,10 @@ using System.Web;
 
 namespace ShoppingCart.Models
 {
+    /// <summary>
+    /// An Order Item that extends from Product. 
+    /// This model is added to the ShoppingCart and tracks the number of units to order for a given product.
+    /// </summary>
     [DataContract(Name = "OrderItem")]
     public class OrderItem : Product
     {
@@ -16,7 +20,11 @@ namespace ShoppingCart.Models
             this.OrderQty = qty;
         }
 
+
         private int qty;
+        /// <summary>
+        /// The Quantity of the given product to order.
+        /// </summary>
         [DataMember(Name = "OrderQty")]
         public int OrderQty
         {

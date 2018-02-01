@@ -486,6 +486,53 @@
             Responsible for managing a user's shopping basket of items.
             </summary>
         </member>
+        <member name="M:ShoppingCart.Controllers.BasketController.Get">
+            <summary>
+            Get a list of all items in the shopping cart.
+            </summary>
+            <returns>A list of items in the shopping cart.</returns>
+        </member>
+        <member name="M:ShoppingCart.Controllers.BasketController.Get(System.Int32)">
+            <summary>
+            Get a specific item, by id, from the shopping cart.
+            </summary>
+            <param name="id">The ID for a specific item in the cart that you want to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ShoppingCart.Controllers.BasketController.GetTotal">
+            <summary>
+            Get the sum total of all items in the shopping cart.
+            </summary>
+            <returns>The total value of the goods in the shopping cart.</returns>
+        </member>
+        <member name="M:ShoppingCart.Controllers.BasketController.Post(ShoppingCart.Models.ClientOrderItem)">
+            <summary>
+            Add a product to the shopping cart. 
+            </summary>
+            <param name="Id">The product ID to add to cart.</param>
+            <param name="OrderQuantity">The quantity of the given product to add to the cart.</param>
+            <returns>HttpStatus: {201=Created}. {400=Bad Request: If Id of product does not exist in Product Database.}</returns>
+        </member>
+        <member name="M:ShoppingCart.Controllers.BasketController.Put(ShoppingCart.Models.ClientOrderItem)">
+            <summary>
+            Change the quantity of product already in the shopping cart.
+            </summary>
+            <param name="Id">The product ID of the product whose quantity you want to change.</param>
+            <param name="OrderQuantity">The new quantity to order for the given product.</param>
+            <returns>HttpStatus: {200=Ok}. {400=Bad Request: If Id of product does not exist in current Shopping Cart.}</returns>
+        </member>
+        <member name="M:ShoppingCart.Controllers.BasketController.Delete(System.Int32)">
+            <summary>
+            Deletes a product (with a given ID) from the shopping cart.
+            </summary>
+            <param name="id">The id of the product to remove from the Shopping Cart.</param>
+            <returns>HttpStatus: {200=Ok}. {404=Not Found: If Id of product does not exist in current Shopping Cart.}</returns>
+        </member>
+        <member name="M:ShoppingCart.Controllers.BasketController.Delete">
+            <summary>
+            Empties the entire shopping cart.
+            </summary>
+        </member>
         <member name="T:ShoppingCart.DAL.CartDatabase">
              <summary>
              Class used to maintain the user's purchases. 
@@ -521,7 +568,53 @@
         </member>
         <member name="T:ShoppingCart.Models.ClientOrderItem">
             <summary>
-            WebAPI Model to handle Post of order items.
+            WebAPI Model that handles PUT and POST for Update and Create when adding a product to the CartDatabase.
+            </summary>
+        </member>
+        <member name="P:ShoppingCart.Models.ClientOrderItem.Id">
+            <summary>
+            The ID of a product available for sale.
+            </summary>
+        </member>
+        <member name="P:ShoppingCart.Models.ClientOrderItem.OrderQty">
+            <summary>
+            The Quantity of the product to order.
+            </summary>
+        </member>
+        <member name="T:ShoppingCart.Models.OrderItem">
+            <summary>
+            An Order Item that extends from Product. 
+            This model is added to the ShoppingCart and tracks the number of units to order for a given product.
+            </summary>
+        </member>
+        <member name="P:ShoppingCart.Models.OrderItem.OrderQty">
+            <summary>
+            The Quantity of the given product to order.
+            </summary>
+        </member>
+        <member name="T:ShoppingCart.Models.Product">
+            <summary>
+            A product available for sale.
+            </summary>
+        </member>
+        <member name="P:ShoppingCart.Models.Product.Id">
+            <summary>
+            Unique product identifier.
+            </summary>
+        </member>
+        <member name="P:ShoppingCart.Models.Product.ProductName">
+            <summary>
+            Name of the given product.
+            </summary>
+        </member>
+        <member name="P:ShoppingCart.Models.Product.ProductDescription">
+            <summary>
+            Description for the given product.
+            </summary>
+        </member>
+        <member name="P:ShoppingCart.Models.Product.UnitPrice">
+            <summary>
+            Price per unit of the given product.
             </summary>
         </member>
     </members>
