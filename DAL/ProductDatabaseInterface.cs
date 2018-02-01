@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace ShoppingCart.DAL
 {
+    /// <summary>
+    /// The interface and constructor based DI allow us to switch out databases
+    /// in our WebAPI Controller.
+    /// </summary>
     interface ProductDatabaseInterface
     {
         Product Get(int id);
