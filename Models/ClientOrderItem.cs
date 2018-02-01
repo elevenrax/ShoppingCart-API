@@ -17,8 +17,9 @@ namespace ShoppingCart.Models
         [DataMember(Name = "Id")]
         public int Id { get; set; } = 0;
 
-        [DataMember(Name = "qty")]
         private int qty;
+
+        [DataMember(Name = "OrderQty")]
         public int OrderQty
         {
             get

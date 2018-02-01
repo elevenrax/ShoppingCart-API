@@ -13,11 +13,11 @@ namespace ShoppingCart.Models
         public OrderItem(Product prod, int qty) 
             : base(prod.Id, prod.ProductName, prod.ProductDescription, prod.UnitPrice)
         {
-            this.qty = qty;
+            this.OrderQty = qty;
         }
 
-        [DataMember(Name = "qty")]
         private int qty;
+        [DataMember(Name = "OrderQty")]
         public int OrderQty
         {
             get
