@@ -16,7 +16,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("11rax.com", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -30,7 +30,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Basket Prototype</p>
         </footer>
     </div>
 
@@ -42,14 +42,133 @@
     <span id="debug"> </span>
 
     <script>
+        // NB. For testing purposes only. 
+        // Makes all Http Requests execute sequentially, blocking until complete. 
+        // For debugging purposes only. << Disable when using library.
+        $.ajaxSetup({ async: false });
+
+
+        // Initialise Helper
         var helper = new ShoppingCartHelper();
-        helper.AddProductToCart(1, 1);
-        helper.getAll();
-        helper.get(1);
-        helper.getBasketTotal();
-        helper.UpdateQtyOfProduct(1, 5);
-        helper.getAll();
-        helper.getBasketTotal();
+
+
+        // TESTS!
+        // View results in Console and Test Results in Chrome.
+
+
+        // Add Two Cheses to 
+        console.log("Add Asiago x1 and Brie x1 to cart.")
+        helper.AddProductToCart(1, 1, function (result) {
+            console.log("AddProductToCart " + result);
+        });
+        helper.AddProductToCart(2, 1, function (result) {
+            console.log("AddProductToCart " + result);
+        });
+
+        // Expected in cart: 1x Asiago and 1x Brie. 
+        // Expected total of 67.65.
+        console.log("Test 1x Asiago, 1x Brie at total of 67.65.");
+        console.log("getAll");
+        helper.getAll(function (result) {
+            $(result).each(function (i, item) {
+                console.log(item);
+            });
+        });
+
+        helper.getBasketTotal( function (result) {
+            console.log("getBasketTotal " + result);
+        });
+
+
+        // Confirm individual get on both cheeses.
+        console.log("Test retreival of single items from cart.");
+        helper.get(1, function (result) {
+            console.log("get " + JSON.stringify(result));
+        });
+
+        helper.get(2, function (result) {
+            console.log("get " + JSON.stringify(result));
+        });
+
+        console.log("Test update of quantity on cart items. Double qty of current cheeses.");
+        // Double qty of each cheese
+        helper.UpdateQtyOfProduct(1, 2, function (result) {
+            console.log("updateQtyOfProduct " + result)
+        });
+
+        helper.UpdateQtyOfProduct(2, 2, function (result) {
+            console.log("updateQtyOfProduct " + result)
+        });
+
+        // Verify Cart contents and price (expect: 2x Asiago, 2x Brie at 135.30)
+        console.log("Test post update: 2x Asiago, and 2x Brie. Expect 135.30");
+        console.log("getAll");
+        helper.getAll(function (result) {
+            $(result).each(function (i, item) {
+                console.log(item);
+            });
+        });
+
+        helper.getBasketTotal(function (result) {
+            console.log("getBasketTotal " + result);
+        });
+
+        console.log("Test update of qty of item not in cart.");
+        // Double Qty of item `not` in cart.
+        helper.UpdateQtyOfProduct(3, 30, function (result) {
+            console.log("updateQtyOfProduct " + result)
+        });
+
+        console.log("Remove item id=1 (Asagio) from cart.")
+        // Remove Asiago from cart
+        helper.removeProductFromCart(1, function (result) {
+            console.log("removeProductFromCart " + result);
+        });
+
+
+        // Inspect cart and get new totals (2x Brie at 44.30)
+        console.log("Test post remove of id=1, only: 2x Brie. Expect 44.30");
+        console.log("getAll");
+        helper.getAll(function (result) {
+            $(result).each(function (i, item) {
+                console.log(item);
+            });
+        });
+
+        helper.getBasketTotal(function (result) {
+            console.log("getBasketTotal " + result);
+        });
+
+        console.log("Empty cart");
+        // Empty cart and verify is emptied
+        helper.emptyCart();
+        console.log("Test cart is in fact empty.");
+        console.log("getAll");
+        helper.getAll(function (result) {
+            $(result).each(function (i, item) {
+                console.log(item);
+            });
+        });
+
+        console.log("Now cart empty, try update of amy item.");
+        // Update item in an empty cart
+        // Expect error: "Cannot update product with id=4. Item not in basket"
+        helper.UpdateQtyOfProduct(4, 40, function (result) {
+            console.log("updateQtyOfProduct " + result)
+        });
+
+        console.log("Test Edge cases of api");
+        console.log("Expect error codes in 400s");
+        // Test Edge Cases
+        // View results in NETWORK tab in Chrome.
+        helper.get(2000, function (r) { });                               // Expect 400
+        helper.get(-9999, function (r) { });                              // Expect 400
+        helper.AddProductToCart(-9000, -9, function (r) { });             // Expect 400
+        helper.AddProductToCart(90000, 99, function (r) { });             // Expect 400
+        helper.UpdateQtyOfProduct(-90000, -9, function (r) { });          // Expect 404
+        helper.UpdateQtyOfProduct(900000, 999, function (r) { });         // Expect 404
+        helper.removeProductFromCart(-99000, function (r) { });           // Expect 404
+        helper.removeProductFromCart(9999, function (r) { });             // Expect 404
 
     </script>
 </body>
