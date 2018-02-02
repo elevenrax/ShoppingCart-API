@@ -555,11 +555,80 @@
              However by the server preserving sessions, this would no longer be RESTful as it violates the `Stateless` constraint.
              </summary>
         </member>
+        <member name="P:ShoppingCart.DAL.CartDatabase.Instance">
+            <summary>
+            Obtain an instance of the CartDatabase singleton.
+            </summary>
+        </member>
+        <member name="M:ShoppingCart.DAL.CartDatabase.GetAll">
+            <summary>
+            Retreive all items in the current basket
+            </summary>
+            <returns>A List of all OrderItems in the current basket</returns>
+        </member>
+        <member name="M:ShoppingCart.DAL.CartDatabase.Get(System.Int32)">
+            <summary>
+            Retreive a specific item in the basket.
+            </summary>
+            <param name="id">The item id of the requested item</param>
+            <returns>The order item with the corresponding Id</returns>
+        </member>
+        <member name="M:ShoppingCart.DAL.CartDatabase.UpdateQuantity(System.Int32,System.Int32)">
+            <summary>
+            Updates the quantity of an item in the cart.
+            </summary>
+            <param name="id">The id of the item to update.</param>
+            <param name="qty">The new quantity.</param>
+            <returns>True upon successfully updating a quantity.</returns>
+        </member>
+        <member name="M:ShoppingCart.DAL.CartDatabase.Add(System.Int32,System.Int32)">
+            <summary>
+            Adds an item to the basket.
+            NB. If the product already exists, it updates the quantity to add the new qty (not replace).
+                This is because we expect that a user will add a product again from the browse area and
+                    their desired behaviour is to include what they have already + the new order amount.
+            </summary>
+            <param name="id">The product id of the item to add.</param>
+            <param name="qty">The quantity of the given product to add.</param>
+            <returns>True if the product id exists and can added.</returns>
+        </member>
+        <member name="M:ShoppingCart.DAL.CartDatabase.SumCart">
+            <summary>
+            Sums the total cost of items in the cart.
+            </summary>
+            <returns>The sum total cost.</returns>
+        </member>
+        <member name="M:ShoppingCart.DAL.CartDatabase.Remove(System.Int32)">
+            <summary>
+            Removed an item from the cart.
+            </summary>
+            <param name="id">The id of the item you wish to remove.</param>
+            <returns>True if the item has successfully been removed.</returns>
+        </member>
+        <member name="M:ShoppingCart.DAL.CartDatabase.EmptyCart">
+            <summary>
+            Empties the shopping cart.
+            </summary>
+            <returns>True, if the cart has successfully been emptied.</returns>
+        </member>
         <member name="T:ShoppingCart.DAL.ProductDatabaseInterface">
             <summary>
             The interface and constructor based DI allow us to switch out databases
             in our WebAPI Controller.
             </summary>
+        </member>
+        <member name="M:ShoppingCart.DAL.ProductDatabaseInterface.Get(System.Int32)">
+            <summary>
+            Get a specific product from the database.
+            </summary>
+            <param name="id">The id of the product to return</param>
+            <returns></returns>
+        </member>
+        <member name="M:ShoppingCart.DAL.ProductDatabaseInterface.Get">
+            <summary>
+            Get all products in the database.
+            </summary>
+            <returns>A List of all Products in the database.</returns>
         </member>
         <member name="T:ShoppingCart.DAL.ProductDatabase">
             <summary>
